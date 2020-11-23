@@ -6,12 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trang chủ</title>
 </head>
+<style>
+    .box{
+        width : 100px;
+        height : 300px;
+    }
+</style>
 <body>
 
     <?php
+        $HoTen = 'Vương';
+        $Pass = '2134';
+        echo '<h1 style="color: blue"> 1 Hello</h1>';
+        echo '<h1 style="color: blue">2 Hello' . $HoTen . '</h1>';
+        echo "<h1 style=\"color: blue\">3 $HoTen </h1>";
 
-        echo '<h1 style="color: blue">Hello</h1>';
+
     ?>
+    <div class="box">
+        <h1> Xin chao <?php echo '4 '.$HoTen; ?></h1>
+        <h1> Xin chao <?= $HoTen ?> 
+            <br>
+            PassWord <?= $Pass?>
+        </h1>
+    </div>
+    <br>
     <a href="pages/about.php">Giới thiệu</a>
     <a href="pages/contact.php">Liên hệ</a>
 </body>
