@@ -8,7 +8,7 @@
 </head>
 <body>
     
-    <form action="Xu-Ly-Dang-Nhap.php" method="get" name="frmDangNhap" id="frmDangNhap">
+    <form action="" method="get" name="frmDangNhap" id="frmDangNhap">
         <label for="username">User Name</label>
         <input type="text" name="username" id="username" >
         <br>
@@ -17,6 +17,18 @@
         <br>
         <input type="submit" name="btnDangNhap" id="btnDangNhap" value="Đăng nhập">
     </form>
+
+    <?php
+        if(isset($_GET['btnDangNhap'])){    //Bien $_GET['btnDangNhap'] co ton tai thi xu ly
+            $Username = $_GET['username'];
+            $Password = $_GET['pass'];
+
+            if($Username == 'vuong' && $Password  == '1234')
+                echo '<h1>Dang Nhap Thanh Cong</h1>';
+                else echo 'That bai';
+
+        }
+    ?>
 
 </body>
 </html>
