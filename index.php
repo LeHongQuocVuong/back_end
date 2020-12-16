@@ -22,6 +22,8 @@
         echo '<h1 style="color: blue">2: Hello' . $HoTen . '</h1>';
         echo "<h1 style=\"color: blue\">3: $HoTen </h1>";
 
+
+        
     ?>
     <div class="box">
         <h1> Xin chao <?php echo '4: '.$HoTen; ?></h1>
