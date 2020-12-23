@@ -22,7 +22,7 @@
 
       <main role="main" class="col-md-10 ml-sm-auto px-4 mb-2">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Danh sách các Loại sản phẩm</h1>
+          <h1 class="h2">Danh sách chủ đề góp ý</h1>
         </div>
 
         <!-- Block content -->
@@ -32,20 +32,18 @@
         include_once(__DIR__. '/../../../dbconnect.php');
 
         // 2. Chuẩn bị câu truy vấn $sql
-        $stt=1;
-        $sql = "SELECT lsp_ma, lsp_ten, lsp_mota	FROM loaisanpham;";
+        $sql = "SELECT cdgy_ma, cdgy_ten FROM chudegopy;";
 
         // 3. Thực thi câu truy vấn SQL để lấy về dữ liệu
         $result = mysqli_query($conn, $sql);
         // 4. Khi thực thi các truy vấn dạng SELECT, dữ liệu lấy về cần phải phân tích để sử dụng
         // Thông thường, chúng ta sẽ sử dụng vòng lặp while để duyệt danh sách các dòng dữ liệu được SELECT
         // Ta sẽ tạo 1 mảng array để chứa các dữ liệu được trả về
-        $ds_loaisanpham = [];
+        $dc_chudegopy = [];
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $ds_loaisanpham[] = array(
-            'lsp_ma' => $row['lsp_ma'],
-            'lsp_ten' => $row['lsp_ten'],
-            'lsp_mota' => $row['lsp_mota']
+          $dc_chudegopy[] = array(
+            'cdgy_ma' => $row['cdgy_ma'],
+            'cdgy_ten' => $row['cdgy_ten']
           );
         }
         ?>
@@ -55,28 +53,24 @@
         <table class="table table-bordered table-hover mt-2">
           <thead class="thead-dark">
           <tr>
-              <th>STT</th>
-              <th>Mã loại sản phẩm</th>
-              <th>Tên loại sản phẩm</th>
-              <th>Mô tả loại sản phẩm</th>
+              <th>Mã chủ đề góp ý</th>
+              <th>Tên chủ đề góp ý</th>
               <th>Hành động</th>
           </tr>
           </thead>
           <tbody>
             <?php
-              foreach ($ds_loaisanpham as $lsp):?>
+              foreach ($dc_chudegopy as $cdgy):?>
                 <tr>
-                  <td><?= $stt; $stt++?></td>
-                  <td><?= $lsp['lsp_ma']?></td>
-                  <td><?= $lsp['lsp_ten']?></td>
-                  <td><?= $lsp['lsp_mota']?></td>
+                  <td><?= $cdgy['cdgy_ma']?></td>
+                  <td><?= $cdgy['cdgy_ten']?></td>
                   <td>
-                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="edit.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-warning">
+                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `cdgy_ma` -->
+                    <a href="edit.php?cdgy_ma=<?= $cdgy['cdgy_ma'] ?>" class="btn btn-warning">
                       <span data-feather="edit"></span> Sửa
                     </a>
-                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="delete.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-danger">
+                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `cdgy_ma` -->
+                    <a href="delete.php?cdgy_ma=<?= $cdgy['cdgy_ma'] ?>" class="btn btn-danger">
                       <span data-feather="delete"></span> Xóa
                     </a>
                   </td>

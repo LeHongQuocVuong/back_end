@@ -22,7 +22,7 @@
 
       <main role="main" class="col-md-10 ml-sm-auto px-4 mb-2">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Danh sách các Loại sản phẩm</h1>
+          <h1 class="h2">Danh sách góp ý</h1>
         </div>
 
         <!-- Block content -->
@@ -32,20 +32,26 @@
         include_once(__DIR__. '/../../../dbconnect.php');
 
         // 2. Chuẩn bị câu truy vấn $sql
-        $stt=1;
-        $sql = "SELECT lsp_ma, lsp_ten, lsp_mota	FROM loaisanpham;";
+        $stt = 1;
+        $sql = "SELECT gy_ma, gy_hoten, gy_email, gy_diachi, gy_dienthoai, gy_tieude, gy_noidung, gy_ngaygopy, cdgy_ma FROM gopy;";
 
         // 3. Thực thi câu truy vấn SQL để lấy về dữ liệu
         $result = mysqli_query($conn, $sql);
         // 4. Khi thực thi các truy vấn dạng SELECT, dữ liệu lấy về cần phải phân tích để sử dụng
         // Thông thường, chúng ta sẽ sử dụng vòng lặp while để duyệt danh sách các dòng dữ liệu được SELECT
         // Ta sẽ tạo 1 mảng array để chứa các dữ liệu được trả về
-        $ds_loaisanpham = [];
+        $ds_gopy = [];
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $ds_loaisanpham[] = array(
-            'lsp_ma' => $row['lsp_ma'],
-            'lsp_ten' => $row['lsp_ten'],
-            'lsp_mota' => $row['lsp_mota']
+          $ds_gopy[] = array(
+            'gy_ma' => $row['gy_ma'],
+            'gy_hoten' => $row['gy_hoten'],
+            'gy_email' => $row['gy_email'],
+            'gy_diachi' => $row['gy_diachi'],
+            'gy_dienthoai' => $row['gy_dienthoai'],
+            'gy_tieude' => $row['gy_tieude'],
+            'gy_noidung' => $row['gy_noidung'],
+            'gy_ngaygopy' => $row['gy_ngaygopy'],
+            'cdgy_ma' => $row['cdgy_ma'],
           );
         }
         ?>
@@ -56,27 +62,39 @@
           <thead class="thead-dark">
           <tr>
               <th>STT</th>
-              <th>Mã loại sản phẩm</th>
-              <th>Tên loại sản phẩm</th>
-              <th>Mô tả loại sản phẩm</th>
+              <th>Mã góp ý</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Địa chỉ</th>
+              <th>ĐIện thoại</th>
+              <th>Tiêu đề</th>
+              <th>Nội dung</th>
+              <th>Ngày góp ý</th>
+              <th>Mã chủ đề góp ý</th>
               <th>Hành động</th>
           </tr>
           </thead>
           <tbody>
             <?php
-              foreach ($ds_loaisanpham as $lsp):?>
+              foreach ($ds_gopy as $gy):?>
                 <tr>
-                  <td><?= $stt; $stt++?></td>
-                  <td><?= $lsp['lsp_ma']?></td>
-                  <td><?= $lsp['lsp_ten']?></td>
-                  <td><?= $lsp['lsp_mota']?></td>
+                  <td><?= $stt; $stt++;?></td>
+                  <td><?= $gy['gy_ma']?></td>
+                  <td><?= $gy['gy_hoten']?></td>
+                  <td><?= $gy['gy_email']?></td>
+                  <td><?= $gy['gy_diachi']?></td>
+                  <td><?= $gy['gy_dienthoai']?></td>
+                  <td><?= $gy['gy_tieude']?></td>
+                  <td><?= $gy['gy_noidung']?></td>
+                  <td><?= $gy['gy_ngaygopy']?></td>
+                  <td><?= $gy['cdgy_ma']?></td>
                   <td>
-                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="edit.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-warning">
+                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `gy_ma` -->
+                    <a href="edit.php?gy_ma=<?= $gy['gy_ma'] ?>" class="btn btn-warning">
                       <span data-feather="edit"></span> Sửa
                     </a>
-                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="delete.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-danger">
+                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `gy_ma` -->
+                    <a href="delete.php?gy_ma=<?= $gy['gy_ma'] ?>" class="btn btn-danger">
                       <span data-feather="delete"></span> Xóa
                     </a>
                   </td>
