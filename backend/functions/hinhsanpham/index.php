@@ -22,7 +22,7 @@
 
       <main role="main" class="col-md-10 ml-sm-auto px-4 mb-2">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Danh sách các Loại sản phẩm</h1>
+          <h1 class="h2">Danh sách hình sản phẩm</h1>
         </div>
 
         <!-- Block content -->
@@ -33,7 +33,7 @@
 
         // 2. Chuẩn bị câu truy vấn $sql
         $stt=1;
-        $sql = "SELECT lsp_ma, lsp_ten, lsp_mota	FROM loaisanpham;";
+        $sql = "SELECT hsp_ma, hsp_tentaptin, sp_ma	FROM hinhsanpham;";
 
         // 3. Thực thi câu truy vấn SQL để lấy về dữ liệu
         $result = mysqli_query($conn, $sql);
