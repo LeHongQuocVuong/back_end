@@ -40,12 +40,12 @@
         // 4. Khi thực thi các truy vấn dạng SELECT, dữ liệu lấy về cần phải phân tích để sử dụng
         // Thông thường, chúng ta sẽ sử dụng vòng lặp while để duyệt danh sách các dòng dữ liệu được SELECT
         // Ta sẽ tạo 1 mảng array để chứa các dữ liệu được trả về
-        $ds_loaisanpham = [];
+        $ds_hinhsanpham = [];
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $ds_loaisanpham[] = array(
-            'lsp_ma' => $row['lsp_ma'],
-            'lsp_ten' => $row['lsp_ten'],
-            'lsp_mota' => $row['lsp_mota']
+          $ds_hinhsanpham[] = array(
+            'hsp_ma' => $row['hsp_ma'],
+            'hsp_tentaptin' => $row['hsp_tentaptin'],
+            'sp_ma' => $row['sp_ma']
           );
         }
         ?>
@@ -56,27 +56,27 @@
           <thead class="thead-dark">
           <tr>
               <th>STT</th>
-              <th>Mã loại sản phẩm</th>
-              <th>Tên loại sản phẩm</th>
-              <th>Mô tả loại sản phẩm</th>
+              <th>Mã hình sản phẩm</th>
+              <th>Tên tập tin hình sản phẩm</th>
+              <th>Mã sản phẩm</th>
               <th>Hành động</th>
           </tr>
           </thead>
           <tbody>
             <?php
-              foreach ($ds_loaisanpham as $lsp):?>
+              foreach ($ds_hinhsanpham as $hsp):?>
                 <tr>
                   <td><?= $stt; $stt++?></td>
-                  <td><?= $lsp['lsp_ma']?></td>
-                  <td><?= $lsp['lsp_ten']?></td>
-                  <td><?= $lsp['lsp_mota']?></td>
+                  <td><?= $hsp['hsp_ma']?></td>
+                  <td><?= $hsp['hsp_tentaptin']?></td>
+                  <td><?= $hsp['sp_ma']?></td>
                   <td>
-                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="edit.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-warning">
+                    <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `hsp_ma` -->
+                    <a href="edit.php?hsp_ma=<?= $hsp['hsp_ma'] ?>" class="btn btn-warning">
                       <span data-feather="edit"></span> Sửa
                     </a>
-                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `lsp_ma` -->
-                    <a href="delete.php?lsp_ma=<?= $lsp['lsp_ma'] ?>" class="btn btn-danger">
+                    <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `hsp_ma` -->
+                    <a href="delete.php?hsp_ma=<?= $hsp['hsp_ma'] ?>" class="btn btn-danger">
                       <span data-feather="delete"></span> Xóa
                     </a>
                   </td>
