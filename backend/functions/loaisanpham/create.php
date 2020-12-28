@@ -142,25 +142,25 @@
             // Nếu không có lỗi VALIDATE dữ liệu (tức là dữ liệu đã hợp lệ)
             // Tiến hành thực thi câu lệnh SQL Query Database
             // => giá trị của biến $errors là rỗng
-            // if (
-            //   isset($_POST['btnSave'])  // Nếu người dùng có bấm nút "Lưu dữ liệu"
-            //   && (!isset($errors) || (empty($errors))) // Nếu biến $errors không tồn tại Hoặc giá trị của biến $errors rỗng
-            // ) {
-            //   // VALIDATE dữ liệu đã hợp lệ
-            //   // Thực thi câu lệnh SQL QUERY
-            //   // Câu lệnh INSERT
-            //   $sql = "INSERT INTO `loaisanpham` (lsp_ten, lsp_mota) VALUES ('$lsp_ten', '$lsp_mota');";
+            if (
+              isset($_POST['btnSave'])  // Nếu người dùng có bấm nút "Lưu dữ liệu"
+              && (!isset($errors) || (empty($errors))) // Nếu biến $errors không tồn tại Hoặc giá trị của biến $errors rỗng
+            ) {
+              // VALIDATE dữ liệu đã hợp lệ
+              // Thực thi câu lệnh SQL QUERY
+              // Câu lệnh INSERT
+              $sql = "INSERT INTO `loaisanpham` (lsp_ten, lsp_mota) VALUES ('$lsp_ten', '$lsp_mota');";
 
-            //   // Thực thi INSERT
-            //   mysqli_query($conn, $sql) or die("<b>Có lỗi khi thực thi câu lệnh SQL: </b>" . mysqli_error($conn) . "<br /><b>Câu lệnh vừa thực thi:</b></br>$sql");
+              // Thực thi INSERT
+              mysqli_query($conn, $sql) or die("<b>Có lỗi khi thực thi câu lệnh SQL: </b>" . mysqli_error($conn) . "<br /><b>Câu lệnh vừa thực thi:</b></br>$sql");
 
-            //   // Đóng kết nối
-            //   mysqli_close($conn);
+              // Đóng kết nối
+              mysqli_close($conn);
 
-            //   // Sau khi cập nhật dữ liệu, tự động điều hướng về trang Danh sách
-            //   // Điều hướng bằng Javascript
-            //   echo '<script>location.href = "index.php";</script>';
-            // }
+              // Sau khi cập nhật dữ liệu, tự động điều hướng về trang Danh sách
+              // Điều hướng bằng Javascript
+              echo '<script>location.href = "index.php";</script>';
+            }
             ?>
           
           
