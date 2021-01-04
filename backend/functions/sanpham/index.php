@@ -7,6 +7,9 @@
 <head>
   <!-- Nhúng file quản lý phần HEAD -->
   <?php include_once(__DIR__ . '/../../layouts/head.php'); ?>
+  <!-- DataTable CSS -->
+  <link href="/back_end/assets/vendor/DataTables/datatables.css" type="text/css" rel="stylesheet" />
+  <link href="/back_end/assets/vendor/DataTables/Buttons-1.6.5/css/buttons.bootstrap4.min.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -33,7 +36,13 @@
 
         // 2. Chuẩn bị câu truy vấn $sql
         $stt=1;
-        $sql = "SELECT sp_ma, sp_ten, sp_gia, sp_giacu, sp_mota_ngan, sp_mota_chitiet, sp_ngaycapnhat, sp_soluong, lsp_ma, nsx_ma, km_ma FROM sanpham;";
+        $sql = <<<EOT
+        SELECT *
+        FROM sanpham AS sp
+        JOIN loaisanpham AS lsp ON sp.lsp_ma = lsp.lsp_ma
+        JOIN nhasanxuat AS nsx ON sp.nsx_ma = nsx.nsx_ma
+        LEFT JOIN khuyenmai AS km on sp.km_ma = km.km_ma;
+EOT;
 
         // 3. Thực thi câu truy vấn SQL để lấy về dữ liệu
         $result = mysqli_query($conn, $sql);
@@ -42,18 +51,35 @@
         // Ta sẽ tạo 1 mảng array để chứa các dữ liệu được trả về
         $ds_sanpham = [];
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $km_thongtin = 'Không';
+          if(!empty($row['km_ma'])){
+            $km_thongtin = sprintf(
+              "Khuyến mãi %s, nội dung %s, thời gian: %s-%s",
+              $row['km_ten'],
+              $row['kh_noidung'],
+              date('d/m/Y' , strtotime($row['kh_tungay'])),
+              date('d/m/Y' , strtotime($row['km_denngay']))
+            );
+          }
           $ds_sanpham[] = array(
             'sp_ma' => $row['sp_ma'],
             'sp_ten' => $row['sp_ten'],
-            'sp_gia' => $row['sp_gia'],
-            'sp_giacu' => $row['sp_giacu'],
+            // Sử dụng hàm number_format(số tiền, số lẻ thập phân, dấu phân cách số lẻ, dấu phân cách hàng nghìn) 
+            // để định dạng số khi hiển thị trên giao diện. 
+            // Vd: 15800000 -> format thành 15,800,000.66 vnđ
+            'sp_gia' => number_format($row['sp_gia'], 2, ".", ",") . ' vnđ',
+            'sp_giacu' => number_format($row['sp_giacu'], 2, ".", ",") . ' vnđ',
             'sp_mota_ngan' => $row['sp_mota_ngan'],
             'sp_mota_chitiet' => $row['sp_mota_chitiet'],
-            'sp_ngaycapnhat' => $row['sp_ngaycapnhat'],
-            'sp_soluong' => $row['sp_soluong'],
+            'sp_ngaycapnhat' => date('d/m/Y H:i:s', strtotime($row['sp_ngaycapnhat'])),
+            'sp_soluong' => number_format($row['sp_soluong'], 0, ".", ","),
             'lsp_ma' => $row['lsp_ma'],
             'nsx_ma' => $row['nsx_ma'],
             'km_ma' => $row['km_ma'],
+            // Các cột dữ liệu lấy từ liên kết khóa ngoại
+            'lsp_ten' => $row['lsp_ten'],
+            'nsx_ten' => $row['nsx_ten'],
+            'km_thongtin' => $km_thongtin,
           );
         }
         ?>
@@ -61,7 +87,7 @@
         <!-- Nút thêm mới, bấm vào sẽ hiển thị form nhập thông tin Thêm mới -->
         <a href="create.php" class="btn btn-primary">Thêm mới</a>
         <div class="table-responsive">
-          <table class="table table-bordered table-hover mt-2">
+          <table id="tableSP" class="table table-bordered table-hover mt-2 table-sm">
             <thead class="thead-dark">
             <tr>
                 <th>STT</th>
@@ -73,9 +99,9 @@
                 <th>Mô tả chi tiết</th>
                 <th>Ngày cập nhật</th>
                 <th>Số lượng</th>
-                <th>Mã loại sản phẩm</th>
-                <th>Mã nhà sản xuất</th>
-                <th>Mã khuyến mãi</th>
+                <th>Loại sản phẩm</th>
+                <th>Nhà sản xuất</th>
+                <th>Khuyến mãi</th>
                 <th>Hành động</th>
             </tr>
             </thead>
@@ -92,9 +118,9 @@
                     <td><?= $lsp['sp_mota_chitiet']?></td>
                     <td><?= $lsp['sp_ngaycapnhat']?></td>
                     <td><?= $lsp['sp_soluong']?></td>
-                    <td><?= $lsp['lsp_ma']?></td>
-                    <td><?= $lsp['nsx_ma']?></td>
-                    <td><?= $lsp['km_ma']?></td>
+                    <td><?= $lsp['lsp_ten']?></td>
+                    <td><?= $lsp['nsx_ten']?></td>
+                    <td><?= $lsp['km_thongtin']?></td>
                     <td>
                       <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `lsp_ma` -->
                       <a href="edit.php?sp_ma=<?= $lsp['sp_ma'] ?>" class="btn btn-warning">
@@ -123,9 +149,26 @@
 
   <!-- Nhúng file quản lý phần SCRIPT JAVASCRIPT -->
   <?php include_once(__DIR__ . '/../../layouts/scripts.php'); ?>
-
+  <!-- DataTable JS -->
+  <script src="/back_end/assets/vendor/DataTables/datatables.min.js"></script>
+  <script src="/back_end/assets/vendor/DataTables/Buttons-1.6.5/js/buttons.bootstrap4.min.js  "></script>
+  <script src="/back_end/assets/vendor/DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+  <script src="/back_end/assets/vendor/DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
   <!-- Các file Javascript sử dụng riêng cho trang này, liên kết tại đây -->
   <!-- <script src="..."></script> -->
+
+  <script>
+    $(document).ready( function () {
+    $('#tableSP').DataTable(
+      {
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ]
+        }
+    );
+} );
+    </script>
 </body>
 
 </html>
