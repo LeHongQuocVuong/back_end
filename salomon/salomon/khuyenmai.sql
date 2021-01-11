@@ -12,16 +12,19 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table salomon.chudegopy
-CREATE TABLE IF NOT EXISTS `chudegopy` (
-  `cdgy_ma` int(11) NOT NULL,
-  `cdgy_ten` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`cdgy_ma`)
+-- Dumping structure for table salomon.khuyenmai
+CREATE TABLE IF NOT EXISTS `khuyenmai` (
+  `km_ma` int(11) NOT NULL AUTO_INCREMENT,
+  `km_ten` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `kh_noidung` text COLLATE utf8_unicode_ci,
+  `kh_tungay` date DEFAULT NULL,
+  `km_denngay` date DEFAULT NULL,
+  PRIMARY KEY (`km_ma`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table salomon.chudegopy: ~0 rows (approximately)
-/*!40000 ALTER TABLE `chudegopy` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chudegopy` ENABLE KEYS */;
+-- Dumping data for table salomon.khuyenmai: ~0 rows (approximately)
+/*!40000 ALTER TABLE `khuyenmai` DISABLE KEYS */;
+/*!40000 ALTER TABLE `khuyenmai` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -107,29 +107,27 @@ EOT;
             </thead>
             <tbody>
               <?php
-                foreach ($ds_sanpham as $lsp):?>
+                foreach ($ds_sanpham as $sp):?>
                   <tr>
                     <td><?= $stt; $stt++?></td>
-                    <td><?= $lsp['sp_ma']?></td>
-                    <td><?= $lsp['sp_ten']?></td>
-                    <td><?= $lsp['sp_gia']?></td>
-                    <td><?= $lsp['sp_giacu']?></td>
-                    <td><?= $lsp['sp_mota_ngan']?></td>
-                    <td><?= $lsp['sp_mota_chitiet']?></td>
-                    <td><?= $lsp['sp_ngaycapnhat']?></td>
-                    <td><?= $lsp['sp_soluong']?></td>
-                    <td><?= $lsp['lsp_ten']?></td>
-                    <td><?= $lsp['nsx_ten']?></td>
-                    <td><?= $lsp['km_thongtin']?></td>
+                    <td><?= $sp['sp_ma']?></td>
+                    <td><?= $sp['sp_ten']?></td>
+                    <td><?= $sp['sp_gia']?></td>
+                    <td><?= $sp['sp_giacu']?></td>
+                    <td><?= $sp['sp_mota_ngan']?></td>
+                    <td><?= $sp['sp_mota_chitiet']?></td>
+                    <td><?= $sp['sp_ngaycapnhat']?></td>
+                    <td><?= $sp['sp_soluong']?></td>
+                    <td><?= $sp['lsp_ten']?></td>
+                    <td><?= $sp['nsx_ten']?></td>
+                    <td><?= $sp['km_thongtin']?></td>
                     <td>
-                      <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `lsp_ma` -->
-                      <a href="edit.php?sp_ma=<?= $lsp['sp_ma'] ?>" class="btn btn-warning">
+                      <!-- Nút sửa, bấm vào sẽ hiển thị form hiệu chỉnh thông tin dựa vào khóa chính `sp_ma` -->
+                      <a href="edit.php?sp_ma=<?= $sp['sp_ma'] ?>" class="btn btn-warning">
                         <span data-feather="edit"></span> Sửa
                       </a>
-                      <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `lsp_ma` -->
-                      <a href="delete.php?sp_ma=<?= $lsp['sp_ma'] ?>" class="btn btn-danger">
-                        <span data-feather="delete"></span> Xóa
-                      </a>
+                      <!-- Nút xóa, bấm vào sẽ xóa thông tin dựa vào khóa chính `sp_ma` -->
+                      <button class="btn btn-danger btnDelete" data-sp_ma="<?= $sp['sp_ma'] ?>">Xóa</button>
                     </td>
                     
                   </tr>
@@ -154,20 +152,51 @@ EOT;
   <script src="/back_end/assets/vendor/DataTables/Buttons-1.6.5/js/buttons.bootstrap4.min.js  "></script>
   <script src="/back_end/assets/vendor/DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
   <script src="/back_end/assets/vendor/DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+  <!-- SweetAlert -->
+  <script src="/back_end/assets/vendor/sweetalert/sweetalert.min.js"></script>
   <!-- Các file Javascript sử dụng riêng cho trang này, liên kết tại đây -->
   <!-- <script src="..."></script> -->
 
   <script>
     $(document).ready( function () {
-    $('#tableSP').DataTable(
-      {
-            dom: 'Blfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf'
-            ]
-        }
-    );
-} );
+      $('#tableSP').DataTable(
+        {
+              dom: 'Blfrtip',
+              buttons: [
+                  'copy', 'excel', 'pdf'
+              ]
+          }
+      );
+      // Cảnh báo khi xóa
+        // 1. Đăng ký sự kiện click cho các phần tử (element) đang áp dụng class .btnDelete
+        $('.btnDelete').click(function() {
+            // Click hanlder
+            // Hiện cảnh báo khi bấm nút xóa
+            swal({
+                title: "Bạn có chắc chắn muốn xóa?",
+                text: "Một khi đã xóa, không thể phục hồi....",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                debugger;
+                if (willDelete) { // Nếu đồng ý xóa
+                    
+                    // 2. Lấy giá trị của thuộc tính (custom attribute HTML) 'sp_ma'
+                    // var sp_ma = $(this).attr('data-sp_ma');
+                    var sp_ma = $(this).data('sp_ma');
+                    var url = "delete.php?sp_ma=" + sp_ma;
+                    
+                    // Điều hướng qua trang xóa với REQUEST GET, có tham số sp_ma=...
+                    location.href = url;
+
+                } else {
+                    swal("Cẩn thận hơn nhé!");
+                }
+            });
+          });
+  } );
     </script>
 </body>
 

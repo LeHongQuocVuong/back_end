@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.29-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win32
+-- Server version:               10.4.13-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win64
 -- HeidiSQL Version:             11.1.0.6116
 -- --------------------------------------------------------
 
@@ -14,16 +14,18 @@
 
 -- Dumping structure for table salomon.khuyenmai
 CREATE TABLE IF NOT EXISTS `khuyenmai` (
-  `km_ma` int(11) NOT NULL,
+  `km_ma` int(11) NOT NULL AUTO_INCREMENT,
   `km_ten` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `kh_noidung` text COLLATE utf8_unicode_ci,
+  `kh_noidung` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `kh_tungay` date DEFAULT NULL,
   `km_denngay` date DEFAULT NULL,
   PRIMARY KEY (`km_ma`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table salomon.khuyenmai: ~0 rows (approximately)
+-- Dumping data for table salomon.khuyenmai: ~1 rows (approximately)
 /*!40000 ALTER TABLE `khuyenmai` DISABLE KEYS */;
+INSERT INTO `khuyenmai` (`km_ma`, `km_ten`, `kh_noidung`, `kh_tungay`, `km_denngay`) VALUES
+	(1, 'Tết 2021', 'Khuyến mãi tết 2021', '2021-01-11', '2021-02-11');
 /*!40000 ALTER TABLE `khuyenmai` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
