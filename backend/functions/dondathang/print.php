@@ -82,14 +82,16 @@ EOT;
     */
     // Lấy dữ liệu Sản phẩm đơn đặt hàng
     $sqlSelectSanPham = <<<EOT
-SELECT 
-    sp.sp_ma, sp.sp_ten, spddh.sp_dh_dongia, spddh.sp_dh_soluong
-    , lsp.lsp_ten, nsx.nsx_ten
-FROM `sanpham_dondathang` spddh
-JOIN `sanpham` sp ON spddh.sp_ma = sp.sp_ma
-JOIN `loaisanpham` lsp ON sp.lsp_ma = lsp.lsp_ma
-JOIN `nhasanxuat` nsx ON sp.nsx_ma = nsx.nsx_ma
-WHERE spddh.dh_ma=$dh_ma
+    SELECT sp.sp_ten,
+    nsx.nsx_ten,
+    lsp.lsp_ten,
+    spddh.sp_dh_soluong, spddh.sp_dh_dongia, (spddh.sp_dh_soluong * spddh.sp_dh_dongia) ThanhTien 
+FROM dondathang ddh
+JOIN sanpham_dondathang spddh ON ddh.dh_ma =  spddh.dh_ma
+JOIN sanpham sp ON spddh.sp_ma = sp.sp_ma
+JOIN nhasanxuat nsx ON sp.nsx_ma = nsx.nsx_ma
+JOIN loaisanpham lsp ON sp.lsp_ma = lsp.lsp_ma
+WHERE ddh.dh_ma = $dh_ma
 EOT;
 
     // Thực thi câu truy vấn SQL để lấy về dữ liệu ban đầu của record cần update
@@ -99,7 +101,9 @@ EOT;
         $dataSanPham[] = array(
             'sp_ma' => $row['sp_ma'],
             'sp_ten' => $row['sp_ten'],
-            'sp_dh_dongia' => $row['sp_dh_dongia'],
+            'sp_dh_dongia' => number_format($row['sp_dh_dongia'], 2, ".", ",") . ' vnđ',
+            'ThanhTien' => number_format($row['ThanhTien'], 2, ".", ",") . ' vnđ',
+            'ThanhTienRaw' => $row['ThanhTien'],
             'sp_dh_soluong' => $row['sp_dh_soluong'],
             'lsp_ten' => $row['lsp_ten'],
             'nsx_ten' => $row['nsx_ten'],
@@ -168,7 +172,7 @@ EOT;
                 </tr>
             </thead>
             <tbody>
-                <?php $stt = 1; ?>
+                <?php $stt = 1; $tongthanhtien = 0; ?>
                 <?php foreach($dataDonDatHang['danhsachsanpham'] as $sanpham): ?>
                 <tr>
                     <td align="center"><?= $stt; ?></td>
@@ -179,15 +183,16 @@ EOT;
                     </td>
                     <td align="right"><?= $sanpham['sp_dh_soluong'] ?></td>
                     <td align="right"><?= $sanpham['sp_dh_dongia'] ?></td>
-                    <td align="right"><?= $sanpham['sp_dh_soluong'] * $sanpham['sp_dh_dongia'] ?></td>
+                    <td align="right"><?= $sanpham['ThanhTien']?></td>
                 </tr>
-                <?php $stt++; ?>
+                <?php $stt++; $tongthanhtien += $sanpham['ThanhTienRaw']?>
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
                 <tr>
+                    
                     <td colspan="4" align="right"><b>Tổng thành tiền</b></td>
-                    <td align="right"><b><?= $dataDonDatHang['TongThanhTien'] ?></b></td>
+                    <td align="right"><b><?= number_format($tongthanhtien, 2, ".", ",") . ' vnđ' ?></b></td>
                 </tr>
             </tfoot>
         </table>
