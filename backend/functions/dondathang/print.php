@@ -99,7 +99,7 @@ EOT;
     $dataSanPham = [];
     while ($row = mysqli_fetch_array($resultSelectSanPham, MYSQLI_ASSOC)) {
         $dataSanPham[] = array(
-            'sp_ma' => $row['sp_ma'],
+            
             'sp_ten' => $row['sp_ten'],
             'sp_dh_dongia' => number_format($row['sp_dh_dongia'], 2, ".", ",") . ' vnđ',
             'ThanhTien' => number_format($row['ThanhTien'], 2, ".", ",") . ' vnđ',

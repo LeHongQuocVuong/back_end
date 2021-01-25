@@ -204,7 +204,9 @@ if (session_id() === '') {
                                     <select class="form-control" id="sp_ma" name="sp_ma">
                                         <option value="">Vui lòng chọn Sản phẩm</option>
                                         <?php foreach ($dataSanPham as $sanpham) : ?>
-                                            <option value="<?= $sanpham['sp_ma'] ?>" data-sp_gia="<?= $sanpham['sp_gia'] ?>"><?= $sanpham['sp_ten'] ?> - <?= number_format($sanpham['sp_gia'],0,".",",") ?></option>
+                                            <option value="<?= $sanpham['sp_ma'] ?>" data-sp_gia="<?= $sanpham['sp_gia'] ?>">
+                                                <?= $sanpham['sp_ten']?> - <?= $sanpham['sp_gia'] ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -315,19 +317,16 @@ if (session_id() === '') {
             var thanhtien = (soluong * sp_gia);
             
             // Tạo mẫu giao diện HTML Table Row
-            if(sp_ma != '' && soluong >0){
-                var htmlTemplate = '<tr>'; 
-                htmlTemplate += '<td>' + sp_ten + '<input type="hidden" name="sp_ma[]" value="' + sp_ma + '"/></td>';
-                htmlTemplate += '<td>' + soluong + '<input type="hidden" name="sp_dh_soluong[]" value="' + soluong + '"/></td>';
-                htmlTemplate += '<td id="'+ sp_ma +'">' + sp_gia.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + '<input type="hidden" name="sp_dh_dongia[]" value="' + sp_gia + '"/></td>';
-                htmlTemplate += '<td>' + thanhtien.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + '</td>';
-                htmlTemplate += '<td><button type="button" class="btn btn-danger btn-delete-row">Xóa</button></td>';
-                htmlTemplate += '</tr>';
+            var htmlTemplate = '<tr>'; 
+            htmlTemplate += '<td>' + sp_ten + '<input type="hidden" name="sp_ma[]" value="' + sp_ma + '"/></td>';
+            htmlTemplate += '<td>' + soluong + '<input type="hidden" name="sp_dh_soluong[]" value="' + soluong + '"/></td>';
+            htmlTemplate += '<td>' + sp_gia + '<input type="hidden" name="sp_dh_dongia[]" value="' + sp_gia + '"/></td>';
+            htmlTemplate += '<td>' + thanhtien + '</td>';
+            htmlTemplate += '<td><button type="button" class="btn btn-danger btn-delete-row">Xóa</button></td>';
+            htmlTemplate += '</tr>';
 
-                // Thêm vào TABLE BODY
-                $('#tblChiTietDonHang tbody').append(htmlTemplate);
-            }
-            else alert("chọn sản phẩm");
+            // Thêm vào TABLE BODY
+            $('#tblChiTietDonHang tbody').append(htmlTemplate);
 
             // Clear
             $('#sp_ma').val('');
