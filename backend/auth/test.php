@@ -115,10 +115,12 @@ if (session_id() === '') {
 
                         // Câu lệnh SELECT Kiểm tra đăng nhập...
                         $sqlSelect = <<<EOT
-                        SELECT *
-                        FROM khachhang kh
-                        WHERE kh.kh_tendangnhap = '$kh_tendangnhap' AND kh.kh_matkhau = '$kh_matkhau';
+                        SELECT * FROM khachhang kh WHERE kh.kh_tendangnhap = '$kh_tendangnhap' AND kh.kh_matkhau = '$kh_matkhau';
 EOT;
+                        
+                        echo '<h1>Câu lệnh</h1>';
+                        echo $sqlSelect;
+                        echo '<br/>';
                         // Thực thi SELECT
                         $result = mysqli_query($conn, $sqlSelect);
 
@@ -126,12 +128,9 @@ EOT;
                         // Nếu có bất kỳ dòng dữ liệu nào SELECT được <-> Người dùng có tồn tại và đã đúng thông tin USERNAME, PASSWORD
                         if (mysqli_num_rows($result) > 0) {
 
-                            // Lưu thông tin Tên tài khoản user đã đăng nhập
-                            $_SESSION['kh_tendangnhap_logged'] = $kh_tendangnhap;
-
+                            
                             echo 'Đăng nhập thành công!';
-                            // Điều hướng (redirect) về trang chủ
-                            echo '<script>location.href = "/back_end/backend/pages/dashboard.php";</script>';
+                            
                         } else {
                             echo '<h2 style="color: red;">Đăng nhập thất bại!</h2>';
                         }

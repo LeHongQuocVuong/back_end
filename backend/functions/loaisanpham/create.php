@@ -48,8 +48,8 @@
           // 2. Nếu người dùng có bấm nút "Lưu dữ liệu"
           if(isset($_POST['btnSave'])){
             // Lấy dữ liệu người dùng hiệu chỉnh gởi từ REQUEST POST
-            $lsp_ten = $_POST['lsp_ten'];
-            $lsp_mota = $_POST['lsp_mota'];
+            $lsp_ten = htmlentities($_POST['lsp_ten']);
+            $lsp_mota = htmlentities($_POST['lsp_mota']);
 
             // Kiểm tra ràng buộc dữ liệu (Validation)
             // Tạo biến lỗi để chứa thông báo lỗi
