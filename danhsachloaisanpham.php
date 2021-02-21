@@ -20,6 +20,9 @@
         // 3. Thực thi
         mysqli_query($conn,$sql);
         echo 'Đã thực hiện';
+
+
+        
     ?>
 
 
