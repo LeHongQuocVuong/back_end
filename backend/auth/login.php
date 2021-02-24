@@ -131,7 +131,12 @@ EOT;
 
                             echo 'Đăng nhập thành công!';
                             // Điều hướng (redirect) về trang chủ
-                            echo '<script>location.href = "/back_end/backend/pages/dashboard.php";</script>';
+                            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                            if($row['kh_quantri']==1){
+                                echo '<script>location.href = "/back_end/backend/pages/dashboard.php";</script>';
+                            } else{
+                                echo '<script>location.href = "/back_end/frontend";</script>';
+                            }
                         } else {
                             echo '<h2 style="color: red;">Đăng nhập thất bại!</h2>';
                         }
